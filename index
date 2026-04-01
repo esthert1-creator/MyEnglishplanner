@@ -1,0 +1,1149 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>English Mastery Planner · B1→C1</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1a2e;
+    --paper: #faf8f3;
+    --cream: #f0ead8;
+    --gold: #c9933a;
+    --gold-light: #e8c06a;
+    --teal: #2a7d6f;
+    --teal-light: #3da891;
+    --rose: #c94a4a;
+    --b1-color: #2a7d6f;
+    --b2-color: #c9933a;
+    --c1-color: #7b3fa0;
+    --shadow: 0 4px 24px rgba(26,26,46,0.10);
+    --shadow-lg: 0 8px 48px rgba(26,26,46,0.16);
+    --radius: 16px;
+    --radius-sm: 8px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* HEADER */
+  header {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 48px 32px 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 20% 50%, rgba(201,147,58,0.18) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 30%, rgba(42,125,111,0.15) 0%, transparent 60%);
+  }
+  header::after {
+    content: 'B1→B2→C1';
+    position: absolute;
+    right: -20px; top: 50%;
+    transform: translateY(-50%) rotate(90deg);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 4px;
+    color: rgba(250,248,243,0.12);
+    white-space: nowrap;
+  }
+  .header-tag {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    margin-bottom: 16px;
+    border: 1px solid rgba(201,147,58,0.4);
+    padding: 4px 14px;
+    border-radius: 20px;
+  }
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.2rem, 5vw, 3.8rem);
+    font-weight: 900;
+    line-height: 1.1;
+    position: relative;
+    z-index: 1;
+    margin-bottom: 12px;
+  }
+  header h1 span { color: var(--gold-light); }
+  header p {
+    font-size: 1.05rem;
+    color: rgba(250,248,243,0.72);
+    max-width: 560px;
+    margin: 0 auto 28px;
+    position: relative; z-index: 1;
+    font-weight: 300;
+  }
+
+  /* LEVEL BADGES */
+  .level-badges {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    position: relative; z-index: 1;
+  }
+  .level-badge {
+    padding: 8px 20px;
+    border-radius: 30px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.25s;
+    border: 2px solid transparent;
+  }
+  .level-badge.b1 { background: rgba(42,125,111,0.25); color: #6ee0cb; border-color: rgba(42,125,111,0.5); }
+  .level-badge.b2 { background: rgba(201,147,58,0.25); color: var(--gold-light); border-color: rgba(201,147,58,0.5); }
+  .level-badge.c1 { background: rgba(123,63,160,0.25); color: #c9a0e8; border-color: rgba(123,63,160,0.5); }
+  .level-badge:hover, .level-badge.active { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.3); }
+  .level-badge.b1.active { background: var(--b1-color); color: white; }
+  .level-badge.b2.active { background: var(--b2-color); color: white; }
+  .level-badge.c1.active { background: var(--c1-color); color: white; }
+
+  /* PROGRESS BAR */
+  .progress-section {
+    background: white;
+    border-bottom: 1px solid rgba(26,26,46,0.08);
+    padding: 20px 32px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .progress-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 2px;
+    color: rgba(26,26,46,0.5);
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .progress-bar-wrap {
+    flex: 1;
+    min-width: 200px;
+    height: 8px;
+    background: var(--cream);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    background: linear-gradient(90deg, var(--b1-color), var(--b2-color), var(--c1-color));
+    transition: width 0.6s cubic-bezier(.4,0,.2,1);
+    width: 0%;
+  }
+  .progress-count {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+  .reset-btn {
+    padding: 6px 14px;
+    border: 1px solid rgba(201,75,75,0.4);
+    background: transparent;
+    color: var(--rose);
+    border-radius: 6px;
+    font-size: 12px;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.2s;
+  }
+  .reset-btn:hover { background: var(--rose); color: white; }
+
+  /* MAIN LAYOUT */
+  main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+
+  /* PHASE HEADER */
+  .phase-block {
+    display: none;
+    animation: fadeIn 0.4s ease;
+  }
+  .phase-block.visible { display: block; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .phase-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    margin-bottom: 32px;
+    padding: 28px 32px;
+    border-radius: var(--radius);
+    position: relative;
+    overflow: hidden;
+  }
+  .phase-header.b1 { background: linear-gradient(135deg, #1a3530 0%, #2a7d6f22 100%); border: 1px solid rgba(42,125,111,0.3); }
+  .phase-header.b2 { background: linear-gradient(135deg, #352a12 0%, #c9933a22 100%); border: 1px solid rgba(201,147,58,0.3); }
+  .phase-header.c1 { background: linear-gradient(135deg, #251735 0%, #7b3fa022 100%); border: 1px solid rgba(123,63,160,0.3); }
+  .phase-dot {
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 900;
+    flex-shrink: 0;
+  }
+  .b1 .phase-dot { background: var(--b1-color); color: white; }
+  .b2 .phase-dot { background: var(--b2-color); color: white; }
+  .c1 .phase-dot { background: var(--c1-color); color: white; }
+  .phase-info h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    color: var(--paper);
+    margin-bottom: 6px;
+  }
+  .phase-info p { color: rgba(250,248,243,0.65); font-size: 0.92rem; line-height: 1.6; }
+  .phase-dates {
+    margin-left: auto;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: rgba(250,248,243,0.5);
+    white-space: nowrap;
+    align-self: center;
+  }
+
+  /* RESOURCES STRIP */
+  .resources-strip {
+    margin-bottom: 32px;
+    padding: 20px 24px;
+    background: white;
+    border-radius: var(--radius);
+    border: 1px solid rgba(26,26,46,0.08);
+    box-shadow: var(--shadow);
+  }
+  .resources-strip h3 {
+    font-size: 0.8rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(26,26,46,0.4);
+    margin-bottom: 14px;
+    font-family: 'DM Mono', monospace;
+  }
+  .resources-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .resource-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.82rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s;
+    border: 1px solid;
+  }
+  .resource-pill:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.12); }
+  .resource-pill.speak { background: #edf9f7; color: #1d5e54; border-color: #a8ddd6; }
+  .resource-pill.write { background: #fdf5e8; color: #7a4e10; border-color: #e8c77a; }
+  .resource-pill.listen { background: #f0eafa; color: #5a2d82; border-color: #c4a0e0; }
+  .resource-pill.general { background: #f0f4ff; color: #2a3a82; border-color: #a8b8f0; }
+  .resource-pill .icon { font-size: 0.9rem; }
+
+  /* WEEK ACCORDION */
+  .week-accordion {
+    margin-bottom: 16px;
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    border: 1px solid rgba(26,26,46,0.07);
+  }
+  .week-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 18px 24px;
+    background: white;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.2s;
+  }
+  .week-header:hover { background: #f8f7f2; }
+  .week-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    color: white;
+    font-size: 0.9rem;
+    letter-spacing: 0;
+  }
+  .b1-week .week-num { background: var(--b1-color); }
+  .b2-week .week-num { background: var(--b2-color); }
+  .c1-week .week-num { background: var(--c1-color); }
+  .week-title-wrap { flex: 1; }
+  .week-title { font-weight: 600; font-size: 1rem; color: var(--ink); }
+  .week-subtitle { font-size: 0.82rem; color: rgba(26,26,46,0.5); margin-top: 2px; }
+  .week-progress-mini {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: rgba(26,26,46,0.45);
+  }
+  .week-prog-bar {
+    width: 60px; height: 4px;
+    background: var(--cream);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .week-prog-fill {
+    height: 100%;
+    border-radius: 2px;
+    transition: width 0.4s ease;
+  }
+  .b1-week .week-prog-fill { background: var(--b1-color); }
+  .b2-week .week-prog-fill { background: var(--b2-color); }
+  .c1-week .week-prog-fill { background: var(--c1-color); }
+  .chevron {
+    font-size: 1.2rem;
+    color: rgba(26,26,46,0.3);
+    transition: transform 0.3s;
+  }
+  .week-accordion.open .chevron { transform: rotate(180deg); }
+
+  .week-body {
+    display: none;
+    background: #fdfcf9;
+    border-top: 1px solid rgba(26,26,46,0.06);
+  }
+  .week-accordion.open .week-body { display: block; }
+
+  /* DAY GRID */
+  .day-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 0;
+  }
+  .day-col {
+    padding: 20px 24px;
+    border-right: 1px solid rgba(26,26,46,0.06);
+    border-bottom: 1px solid rgba(26,26,46,0.06);
+  }
+  .day-col:nth-child(7n), .day-col:last-child { border-right: none; }
+  .day-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(26,26,46,0.35);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .day-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(26,26,46,0.08);
+  }
+
+  /* TASKS */
+  .task-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 8px 10px;
+    margin-bottom: 6px;
+    border-radius: var(--radius-sm);
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+  .task-item:hover { background: rgba(26,26,46,0.04); }
+  .task-item.done { opacity: 0.5; }
+  .task-item.done .task-text { text-decoration: line-through; color: rgba(26,26,46,0.4); }
+
+  .task-check {
+    width: 18px; height: 18px;
+    border-radius: 4px;
+    border: 2px solid;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+    transition: all 0.2s;
+    font-size: 10px;
+    color: white;
+  }
+  .speak-task .task-check { border-color: var(--teal); }
+  .write-task .task-check { border-color: var(--gold); }
+  .listen-task .task-check { border-color: #7b3fa0; }
+  .vocab-task .task-check { border-color: #c94a4a; }
+
+  .task-item.done .speak-task .task-check,
+  .task-item.done.speak-task .task-check { background: var(--teal); border-color: var(--teal); }
+  .task-item.done .write-task .task-check,
+  .task-item.done.write-task .task-check { background: var(--gold); border-color: var(--gold); }
+  .task-item.done .listen-task .task-check,
+  .task-item.done.listen-task .task-check { background: #7b3fa0; border-color: #7b3fa0; }
+  .task-item.done .vocab-task .task-check,
+  .task-item.done.vocab-task .task-check { background: #c94a4a; border-color: #c94a4a; }
+
+  .task-text {
+    font-size: 0.85rem;
+    line-height: 1.45;
+    color: var(--ink);
+    flex: 1;
+  }
+  .task-text a {
+    color: inherit;
+    opacity: 0.6;
+    font-size: 0.75rem;
+    text-decoration: none;
+    display: block;
+    margin-top: 2px;
+  }
+  .task-text a:hover { opacity: 1; text-decoration: underline; }
+  .task-tag {
+    font-size: 0.68rem;
+    padding: 2px 7px;
+    border-radius: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .tag-speak { background: #edf9f7; color: #1d5e54; }
+  .tag-write { background: #fdf5e8; color: #7a4e10; }
+  .tag-listen { background: #f0eafa; color: #5a2d82; }
+  .tag-vocab { background: #fdeaea; color: #7a1010; }
+
+  /* LEGEND */
+  .legend {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    padding: 16px 24px;
+    background: var(--cream);
+    border-top: 1px solid rgba(26,26,46,0.06);
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.78rem;
+    color: rgba(26,26,46,0.6);
+  }
+  .legend-dot {
+    width: 10px; height: 10px;
+    border-radius: 2px;
+  }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 40px;
+    background: var(--ink);
+    color: rgba(250,248,243,0.4);
+    font-size: 0.82rem;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 1px;
+  }
+
+  /* STICKY NAV */
+  .sticky-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(250,248,243,0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(26,26,46,0.08);
+    padding: 12px 24px;
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .nav-btn {
+    padding: 7px 18px;
+    border-radius: 20px;
+    font-size: 0.83rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.2s;
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: rgba(26,26,46,0.6);
+  }
+  .nav-btn:hover { background: var(--ink); color: var(--paper); }
+  .nav-btn.active.b1 { background: var(--b1-color); color: white; }
+  .nav-btn.active.b2 { background: var(--b2-color); color: white; }
+  .nav-btn.active.c1 { background: var(--c1-color); color: white; }
+
+  /* ALL PHASE view */
+  .phase-all .phase-block { display: block; }
+
+  @media (max-width: 600px) {
+    header { padding: 32px 20px; }
+    main { padding: 24px 16px 60px; }
+    .phase-header { flex-wrap: wrap; padding: 20px; }
+    .phase-dates { margin-left: 0; }
+    .day-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-tag">Planning d'apprentissage · Avril 2026</div>
+  <h1>English Mastery<br><span>B1 → B2 → C1</span></h1>
+  <p>6 mois de progression structurée · Speaking · Writing · Listening · Vocabulaire</p>
+  <div class="level-badges">
+    <div class="level-badge b1" onclick="showPhase('b1')">Phase 1 · B1→B2 · Avr–Juin</div>
+    <div class="level-badge b2" onclick="showPhase('b2')">Phase 2 · B2→C1 · Juil–Sep</div>
+    <div class="level-badge c1" onclick="showPhase('all')">Vue d'ensemble</div>
+  </div>
+</header>
+
+<div class="progress-section">
+  <span class="progress-label">Progression globale</span>
+  <div class="progress-bar-wrap">
+    <div class="progress-bar-fill" id="globalBar"></div>
+  </div>
+  <span class="progress-count" id="globalCount">0 / 0 tâches</span>
+  <button class="reset-btn" onclick="resetAll()">↺ Réinitialiser</button>
+</div>
+
+<nav class="sticky-nav">
+  <button class="nav-btn active b1" id="nav-b1" onclick="showPhase('b1')">B1→B2 · Avr–Juin</button>
+  <button class="nav-btn b2" id="nav-b2" onclick="showPhase('b2')">B2→C1 · Juil–Sep</button>
+  <button class="nav-btn" id="nav-all" onclick="showPhase('all')">Tout voir</button>
+</nav>
+
+<main id="mainContent">
+
+  <!-- ===== PHASE B1→B2 ===== -->
+  <div class="phase-block visible" id="phase-b1">
+    <div class="phase-header b1">
+      <div class="phase-dot">B1→B2</div>
+      <div class="phase-info">
+        <h2>Phase 1 : Consolider et Élargir</h2>
+        <p>Renforcer la grammaire, enrichir le vocabulaire, s'exprimer avec fluidité sur des sujets variés. Focus sur la précision et la confiance orale.</p>
+      </div>
+      <div class="phase-dates">AVRIL → JUIN 2026</div>
+    </div>
+
+    <div class="resources-strip">
+      <h3>🔗 Ressources Phase B1→B2</h3>
+      <div class="resources-grid">
+        <a class="resource-pill speak" href="https://www.engvid.com" target="_blank"><span class="icon">🎓</span>EngVid · Leçons vidéo gratuites</a>
+        <a class="resource-pill listen" href="https://www.bbc.co.uk/learningenglish/english/features/6-minute-english" target="_blank"><span class="icon">🎧</span>BBC 6 Minute English</a>
+        <a class="resource-pill speak" href="https://www.italki.com/en/community/discussions" target="_blank"><span class="icon">💬</span>italki Community</a>
+        <a class="resource-pill write" href="https://www.grammarly.com" target="_blank"><span class="icon">✍️</span>Grammarly (gratuit)</a>
+        <a class="resource-pill general" href="https://www.duolingo.com" target="_blank"><span class="icon">🦜</span>Duolingo (vocab)</a>
+        <a class="resource-pill listen" href="https://www.elllo.org" target="_blank"><span class="icon">👂</span>ELLLO · Écoute niveaux</a>
+        <a class="resource-pill speak" href="https://www.engvid.com/english-resource/free-english-grammar-lessons/" target="_blank"><span class="icon">📖</span>EngVid Grammar</a>
+        <a class="resource-pill write" href="https://writingprompts.com" target="_blank"><span class="icon">📝</span>Writing Prompts</a>
+        <a class="resource-pill general" href="https://quizlet.com" target="_blank"><span class="icon">🗃️</span>Quizlet (flashcards)</a>
+        <a class="resource-pill listen" href="https://www.ted.com/talks" target="_blank"><span class="icon">🎤</span>TED Talks</a>
+      </div>
+    </div>
+
+    <!-- WEEKS B1 -->
+    <div id="b1-weeks"></div>
+  </div>
+
+  <!-- ===== PHASE B2→C1 ===== -->
+  <div class="phase-block" id="phase-b2">
+    <div class="phase-header b2">
+      <div class="phase-dot">B2→C1</div>
+      <div class="phase-info">
+        <h2>Phase 2 : Maîtriser et Affiner</h2>
+        <p>Développer une aisance native, argumenter avec nuance, comprendre tout type de contenu authentique. Préparer les examens officiels (IELTS, TOEFL, Cambridge C1).</p>
+      </div>
+      <div class="phase-dates">JUILLET → SEPT 2026</div>
+    </div>
+
+    <div class="resources-strip">
+      <h3>🔗 Ressources Phase B2→C1</h3>
+      <div class="resources-grid">
+        <a class="resource-pill speak" href="https://www.engvid.com/english-resource/advanced-english/" target="_blank"><span class="icon">🎓</span>EngVid Advanced</a>
+        <a class="resource-pill listen" href="https://www.npr.org/podcasts/510289/planet-money" target="_blank"><span class="icon">🎧</span>NPR Planet Money</a>
+        <a class="resource-pill listen" href="https://www.bbc.co.uk/sounds/play/live:bbc_world_service" target="_blank"><span class="icon">📻</span>BBC World Service</a>
+        <a class="resource-pill write" href="https://www.economist.com/free-content" target="_blank"><span class="icon">📰</span>The Economist (gratuit)</a>
+        <a class="resource-pill speak" href="https://www.cambridgeenglish.org/learning-english/activities-for-learners/" target="_blank"><span class="icon">🏆</span>Cambridge Practice</a>
+        <a class="resource-pill general" href="https://www.vocabulary.com" target="_blank"><span class="icon">📚</span>Vocabulary.com</a>
+        <a class="resource-pill speak" href="https://speakpipe.com/voice-recorder" target="_blank"><span class="icon">🎙️</span>Voice Recorder (pratique)</a>
+        <a class="resource-pill write" href="https://www.hemingwayapp.com" target="_blank"><span class="icon">✍️</span>Hemingway App</a>
+        <a class="resource-pill listen" href="https://www.podcastinEnglish.com" target="_blank"><span class="icon">🎙️</span>Podcast in English</a>
+        <a class="resource-pill general" href="https://www.ielts.org/study-for-ielts" target="_blank"><span class="icon">📋</span>IELTS Prep gratuit</a>
+      </div>
+    </div>
+
+    <div id="b2-weeks"></div>
+  </div>
+
+</main>
+
+<div class="legend" id="legendBar">
+  <div class="legend-item"><div class="legend-dot" style="background:var(--teal)"></div> Speaking</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--gold)"></div> Writing</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#7b3fa0"></div> Listening</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#c94a4a"></div> Vocabulaire</div>
+</div>
+
+<footer>© 2026 · English Mastery Planner · B1 → B2 → C1 · 6 Months</footer>
+
+<script>
+// ========== DATA ==========
+
+const DAYS = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'];
+
+// Phase B1→B2 : 12 semaines (Avril – Juin 2026)
+const b1Weeks = [
+  {
+    title: "Semaine 1 · Grammaire de base & Routine",
+    subtitle: "1–7 Avril · Tenses, vocab quotidien, écoute active",
+    days: [
+      [ // Lun
+        {type:'listen', text:"BBC 6 Min English : écoute + notes (15 min)", link:"https://www.bbc.co.uk/learningenglish/english/features/6-minute-english"},
+        {type:'vocab', text:"Duolingo : 10 min (vocabulaire quotidien)", link:"https://www.duolingo.com"},
+      ],
+      [ // Mar
+        {type:'speak', text:"EngVid : leçon 'Present Perfect vs Simple Past'", link:"https://www.engvid.com/learn-english-present-perfect/"},
+        {type:'write', text:"Écrire 5 phrases avec Present Perfect (journal)"},
+      ],
+      [ // Mer
+        {type:'listen', text:"TED-Ed (5–8 min) : thème famille ou travail", link:"https://ed.ted.com/"},
+        {type:'vocab', text:"Quizlet : créer 15 flashcards sur la leçon du jour", link:"https://quizlet.com"},
+      ],
+      [ // Jeu
+        {type:'speak', text:"EngVid : 'How to use Conditionals (0,1,2)'", link:"https://www.engvid.com/conditionals/"},
+        {type:'write', text:"Répondre par écrit : 'If I had more time…' (80 mots)"},
+      ],
+      [ // Ven
+        {type:'listen', text:"ELLLO : dialogue de niveau B1 (écoute + quiz)", link:"https://www.elllo.org/"},
+        {type:'speak', text:"Parler 3 min devant son téléphone (description d'image)"},
+      ],
+      [ // Sam
+        {type:'write', text:"Journal : rédiger 100 mots sur ta semaine en anglais"},
+        {type:'vocab', text:"Révision Quizlet (15 min) + mémorisation active", link:"https://quizlet.com"},
+      ],
+      [ // Dim
+        {type:'listen', text:"Film/série EN sous-titres EN (30 min min)"},
+        {type:'speak', text:"Résumer oralement 3 choses apprises cette semaine"},
+      ],
+    ]
+  },
+  {
+    title: "Semaine 2 · Vocabulaire Professionnel",
+    subtitle: "8–14 Avril · Workplace English, emails, discussions",
+    days: [
+      [{type:'listen', text:"BBC 6 Min English : topic 'Work & Career'", link:"https://www.bbc.co.uk/learningenglish/english/features/6-minute-english"}, {type:'vocab', text:"Duolingo 10 min", link:"https://www.duolingo.com"}],
+      [{type:'speak', text:"EngVid : 'Business English – Meetings'", link:"https://www.engvid.com/business-english/"}, {type:'write', text:"Écrire un email formel (demande de réunion, 80 mots)"}],
+      [{type:'listen', text:"TED Talk : 'How to speak so people want to listen'", link:"https://www.ted.com/talks/julian_treasure_how_to_speak_so_that_people_want_to_listen"}, {type:'vocab', text:"20 mots de vocabulaire professionnel"}],
+      [{type:'speak', text:"EngVid : 'Collocations in Business English'", link:"https://www.engvid.com/business-english/"}, {type:'write', text:"Rédiger un paragraphe d'opinion (travail / télétravail)"}],
+      [{type:'listen', text:"Podcast 'Workplace English' (ELLLO)", link:"https://www.elllo.org/"}, {type:'speak', text:"Pratiquer une introduction professionnelle (2 min)"}],
+      [{type:'write', text:"Email de remerciement après entretien (100 mots)"}, {type:'vocab', text:"Quizlet : révision semaines 1 & 2", link:"https://quizlet.com"}],
+      [{type:'listen', text:"Série/film anglophone (30 min)"}, {type:'speak', text:"Bilan oral hebdomadaire (3 min)"}],
+    ]
+  },
+  {
+    title: "Semaine 3 · Grammaire Avancée B1",
+    subtitle: "15–21 Avril · Passives, reported speech, modals",
+    days: [
+      [{type:'listen', text:"BBC 6 Min English (thème société)", link:"https://www.bbc.co.uk/learningenglish/english/features/6-minute-english"}, {type:'vocab', text:"Duolingo 10 min", link:"https://www.duolingo.com"}],
+      [{type:'speak', text:"EngVid : 'Passive Voice – Complete Lesson'", link:"https://www.engvid.com/passive-voice/"}, {type:'write', text:"Transformer 5 phrases actives → passives"}],
+      [{type:'listen', text:"TED Talk sur un sujet de société (10 min)", link:"https://www.ted.com/talks"}, {type:'vocab', text:"Phrasal verbs : 10 verbes avec 'make'"}],
+      [{type:'speak', text:"EngVid : 'Reported Speech'", link:"https://www.engvid.com/reported-speech/"}, {type:'write', text:"Retranscrire une conversation au discours indirect"}],
+      [{type:'listen', text:"Dialogue authentique ELLLO B1–B2", link:"https://www.elllo.org/"}, {type:'speak', text:"Enregistrer une opinion (2 min) sur un sujet d'actualité"}],
+      [{type:'write', text:"Rédiger un texte d'opinion (150 mots) : pour/contre WFH"}, {type:'vocab', text:"Révision Quizlet", link:"https://quizlet.com"}],
+      [{type:'listen', text:"Épisode de série avec sous-titres EN"}, {type:'speak', text:"Bilan oral de la semaine"}],
+    ]
+  },
+  {
+    title: "Semaine 4 · Expression Orale & Fluidité",
+    subtitle: "22–28 Avril · Fluency drills, discussions, pronunciation",
+    days: [
+      [{type:'listen', text:"BBC 6 Min English", link:"https://www.bbc.co.uk/learningenglish/english/features/6-minute-english"}, {type:'vocab', text:"Duolingo 10 min", link:"https://www.duolingo.com"}],
+      [{type:'speak', text:"EngVid : 'Pronunciation – Word Stress'", link:"https://www.engvid.com/pronunciation/"}, {type:'write', text:"Écrire les mots difficiles phonétiquement"}],
+      [{type:'listen', text:"TED Talk : note 5 expressions utiles", link:"https://www.ted.com/talks"}, {type:'vocab', text:"Idioms courants : 10 expressions B1"}],
+      [{type:'speak', text:"Shadow reading : lire à voix haute en même temps qu'un audio"}, {type:'write', text:"Décrire une image (photo de paysage) : 100 mots"}],
+      [{type:'listen', text:"Podcast anglais 'Speak English Professionally'", link:"https://www.coursera.org/learn/speak-english-professionally"}, {type:'speak', text:"Débat solo : 'Social media is harmful' (2 min pour / 2 min contre)"}],
+      [{type:'write', text:"Court paragraphe : leçon apprise cette semaine (150 mots)"}, {type:'vocab', text:"Révision Quizlet + test automatique", link:"https://quizlet.com"}],
+      [{type:'listen', text:"Film anglophone sans sous-titres (20 min)"}, {type:'speak', text:"Bilan mensuel avril : 5 min en anglais"}],
+    ]
+  },
+  {
+    title: "Semaine 5 · Lecture & Compréhension Écrite",
+    subtitle: "29 Avr–5 Mai · News, articles, reading strategies",
+    days: [
+      [{type:'listen', text:"BBC 6 Min English", link:"https://www.bbc.co.uk/learningenglish/english/features/6-minute-english"}, {type:'vocab', text:"Vocabulary.com : 15 min de pratique", link:"https://www.vocabulary.com"}],
+      [{type:'speak', text:"EngVid : 'Reading Comprehension Strategies'", link:"https://www.engvid.com/reading/"}, {type:'write', text:"Résumer un article BBC en 80 mots"}],
+      [{type:'listen', text:"NPR news podcast (5–10 min)", link:"https://www.npr.org/podcasts/500005/npr-news-now"}, {type:'vocab', text:"Mots-clés d'actualité : 15 termes"}],
+      [{type:'speak', text:"EngVid : 'Vocabulary for News & Media'", link:"https://www.engvid.com/vocabulary/"}, {type:'write', text:"Lettre de lecteur (100 mots) réagissant à un article"}],
+      [{type:'listen', text:"Article audio BBC Learning English (texte + audio)", link:"https://www.bbc.co.uk/learningenglish/"}, {type:'speak', text:"Présenter l'actualité de la semaine (3 min)"}],
+      [{type:'write', text:"Rédiger un article de blog court (200 mots)"}, {type:'vocab', text:"Révision Quizlet", link:"https://quizlet.com"}],
+      [{type:'listen', text:"Documentaire EN (YouTube) 20–30 min"}, {type:'speak', text:"Bilan oral"}],
+    ]
+  },
+  {
+    title: "Semaine 6 · Writing Structuré",
+    subtitle: "6–12 Mai · Paragraphs, essays, linking words",
+    days: [
+      [{type:'listen', text:"BBC 6 Min English", link:"https://www.bbc.co.uk/learningenglish/english/features/6-minute-english"}, {type:'vocab', text:"Duolingo 10 min", link:"https://www.duolingo.com"}],
+      [{type:'speak', text:"EngVid : 'Essay Writing – Introduction Paragraphs'", link:"https://www.engvid.com/writing/"}, {type:'write', text:"Rédiger une introduction (topic : climate change)"}],
+      [{type:'listen', text:"TED Talk : thème environnement (noter linking words)", link:"https://www.ted.com/talks"}, {type:'vocab', text:"20 connecteurs logiques (however, furthermore, besides…)"}],
+      [{type:'speak', text:"EngVid : 'Conclusion Writing'", link:"https://www.engvid.com/writing/"}, {type:'write', text:"Écrire une conclusion pour l'essai commencé"}],
+      [{type:'listen', text:"ELLLO B1–B2 : dialogue opinons", link:"https://www.elllo.org/"}, {type:'speak', text:"Présenter oralement un argument en 2 min (pour ou contre)"}],
+      [{type:'write', text:"Essai complet (250 mots) : 'Should university be free?'"}, {type:'vocab', text:"Grammarly : corriger et analyser l'essai", link:"https://www.grammarly.com"}],
+      [{type:'listen', text:"Série EN sans sous-titres (15 min)"}, {type:'speak', text:"Bilan semaine 6"}],
+    ]
+  },
+  {
+    title: "Semaine 7 · Listening Intensif",
+    subtitle: "13–19 Mai · Accents, transcription, podcast daily",
+    days: [
+      [{type:'listen', text:"BBC 6 Min English + dictée partielle", link:"https://www.bbc.co.uk/learningenglish/english/features/6-minute-english"}, {type:'vocab', text:"Vocabulary.com 15 min", link:"https://www.vocabulary.com"}],
+      [{type:'speak', text:"EngVid : 'Listening Skills – How to Understand Native Speakers'", link:"https://www.engvid.com/listening/"}, {type:'write', text:"Transcrire 1 min d'audio (BBC)"}],
+      [{type:'listen', text:"Podcast 'All Ears English' (B1–B2)", link:"https://www.allearsenglish.com/"}, {type:'vocab', text:"Expressions idiomatiques entendues : noter + apprendre"}],
+      [{type:'speak', text:"Pratique accent : shadow speaking (BBC audio)"}, {type:'write', text:"Résumé d'écoute (podcast 10 min → 100 mots)"}],
+      [{type:'listen', text:"Film court (court-métrage YouTube) 10 min EN", link:"https://www.youtube.com/results?search_query=short+film+english"}, {type:'speak', text:"Décrire oralement le film (3 min)"}],
+      [{type:'write', text:"Essai : 'Technology changes the way we communicate' (200 mots)"}, {type:'vocab', text:"Révision Quizlet semaines 5–7", link:"https://quizlet.com"}],
+      [{type:'listen', text:"Podcast long format (30 min EN)"}, {type:'speak', text:"Bilan semaine 7"}],
+    ]
+  },
+  {
+    title: "Semaine 8 · Speaking Confiance",
+    subtitle: "20–26 Mai · Debates, storytelling, pronunciation",
+    days: [
+      [{type:'listen', text:"BBC 6 Min English", link:"https://www.bbc.co.uk/learningenglish/english/features/6-minute-english"}, {type:'vocab', text:"Duolingo 10 min", link:"https://www.duolingo.com"}],
+      [{type:'speak', text:"EngVid : 'How to Tell a Story in English'", link:"https://www.engvid.com/speak-english/"}, {type:'write', text:"Écrire une anecdote personnelle (150 mots)"}],
+      [{type:'listen', text:"Storytelling podcast EN (The Moth ou similaire)", link:"https://themoth.org/radio-hour"}, {type:'vocab', text:"10 adjectifs descriptifs avancés"}],
+      [{type:'speak', text:"EngVid : 'Debate English – How to Argue Politely'", link:"https://www.engvid.com/speak-english/"}, {type:'write', text:"Script de débat : 150 mots (pour une position)"}],
+      [{type:'listen', text:"Regarder un débat EN (YouTube, Oxford Union)", link:"https://www.youtube.com/user/OxfordUnion"}, {type:'speak', text:"Rejouer un argument du débat oralement (2 min)"}],
+      [{type:'write', text:"Lettre formelle de plainte (200 mots)"}, {type:'vocab', text:"Grammarly + correction", link:"https://www.grammarly.com"}],
+      [{type:'listen', text:"Séance cinéma EN (film complet)"}, {type:'speak', text:"Bilan mensuel mai – 5 min"}],
+    ]
+  },
+  {
+    title: "Semaine 9 · Vocabulaire Thématique Avancé",
+    subtitle: "27 Mai–2 Juin · Society, culture, environment, tech",
+    days: [
+      [{type:'listen', text:"BBC 6 Min English : thème technologie", link:"https://www.bbc.co.uk/learningenglish/english/features/6-minute-english"}, {type:'vocab', text:"Vocabulary.com : 20 min", link:"https://www.vocabulary.com"}],
+      [{type:'speak', text:"EngVid : 'Advanced Vocabulary – Tech & AI'", link:"https://www.engvid.com/vocabulary/"}, {type:'write', text:"Mini-essai : 'AI will replace most jobs' (150 mots)"}],
+      [{type:'listen', text:"TED Talk sur la culture ou la société", link:"https://www.ted.com/talks"}, {type:'vocab', text:"Mots de société : 20 termes C1-ready"}],
+      [{type:'speak', text:"EngVid : 'Academic Vocabulary Lesson'", link:"https://www.engvid.com/vocabulary/"}, {type:'write', text:"Résumer le TED Talk écouté (100 mots)"}],
+      [{type:'listen', text:"Podcast BBC : 'In Our Time' (thème culture)", link:"https://www.bbc.co.uk/programmes/b006qykl"}, {type:'speak', text:"Parler 3 min d'un fait culturel intéressant"}],
+      [{type:'write', text:"Essai argumentatif (250 mots) : 'Culture shapes identity'"}, {type:'vocab', text:"Révision Quizlet semaines 7–9", link:"https://quizlet.com"}],
+      [{type:'listen', text:"Documentaire culturel EN (YouTube)"}, {type:'speak', text:"Bilan semaine 9"}],
+    ]
+  },
+  {
+    title: "Semaine 10 · Grammaire B2 & Nuances",
+    subtitle: "3–9 Juin · Subjunctive, inversion, complex tenses",
+    days: [
+      [{type:'listen', text:"BBC 6 Min English", link:"https://www.bbc.co.uk/learningenglish/english/features/6-minute-english"}, {type:'vocab', text:"Duolingo 10 min", link:"https://www.duolingo.com"}],
+      [{type:'speak', text:"EngVid : 'Inversion in English – Advanced Grammar'", link:"https://www.engvid.com/grammar/"}, {type:'write', text:"5 phrases avec inversion (Never had I…)"}],
+      [{type:'listen', text:"TED Talk complexe (thème psychologie ou économie)", link:"https://www.ted.com/talks"}, {type:'vocab', text:"10 adverbes d'intensité et de nuance"}],
+      [{type:'speak', text:"EngVid : 'Mixed Conditionals'", link:"https://www.engvid.com/conditionals/"}, {type:'write', text:"Texte utilisant 3 conditionnels différents (150 mots)"}],
+      [{type:'listen', text:"Podcast académique EN (10 min)", link:"https://www.bbc.co.uk/programmes/b006qykl"}, {type:'speak', text:"Exposé oral (3 min) sur un sujet complexe"}],
+      [{type:'write', text:"Essai académique : 'The role of education in society' (300 mots)"}, {type:'vocab', text:"Grammarly + Hemingway App", link:"https://www.hemingwayapp.com"}],
+      [{type:'listen', text:"Séance EN (film, série, docu)"}, {type:'speak', text:"Bilan semaine 10"}],
+    ]
+  },
+  {
+    title: "Semaine 11 · Simulation B2 Complète",
+    subtitle: "10–16 Juin · Mock tests, timed writing, speaking assessment",
+    days: [
+      [{type:'listen', text:"Test de compréhension orale B2 (Cambridge sample)", link:"https://www.cambridgeenglish.org/learning-english/activities-for-learners/"}, {type:'vocab', text:"Révision vocab thématique"}],
+      [{type:'speak', text:"Monologue 4 min : sujet donné aléatoirement (minuteur)"}, {type:'write', text:"Essai timed : 45 min pour 250 mots (sujet libre B2)"}],
+      [{type:'listen', text:"Double écoute B2 : noter toutes les informations clés"}, {type:'vocab', text:"Quizlet : révision globale B1–B2", link:"https://quizlet.com"}],
+      [{type:'speak', text:"EngVid : 'B2 Speaking Tips – FCE Exam'", link:"https://www.engvid.com/exams/"}, {type:'write', text:"Rapport formel (250 mots) : recommandations de voyage"}],
+      [{type:'listen', text:"Écoute double vitesse (1.25x) BBC ou TED"}, {type:'speak', text:"Debate : 2 positions opposées en 5 min total"}],
+      [{type:'write', text:"Auto-correction de l'essai de mercredi avec Grammarly", link:"https://www.grammarly.com"}, {type:'vocab', text:"Nouveaux idiomes B2 : 10 expressions"}],
+      [{type:'listen', text:"Film EN intégral sans sous-titres"}, {type:'speak', text:"Bilan Phase 1 – 10 min de monologue libre"}],
+    ]
+  },
+  {
+    title: "Semaine 12 · Bilan B1→B2 & Transition",
+    subtitle: "17–23 Juin · Consolidation, auto-évaluation, préparation Phase 2",
+    days: [
+      [{type:'listen', text:"Test d'écoute B2 complet (Cambridge gratuit)", link:"https://www.cambridgeenglish.org/learning-english/activities-for-learners/"}, {type:'vocab', text:"Révision complète Quizlet (toutes semaines)", link:"https://quizlet.com"}],
+      [{type:'speak', text:"Enregistrer un monologue 5 min : 'My English Journey'"}, {type:'write', text:"Essai de bilan : 'What I've learned' (300 mots)"}],
+      [{type:'listen', text:"Podcast B2 complet : noter toutes expressions inconnues"}, {type:'vocab', text:"Créer un glossaire personnel des 100 mots B2 appris"}],
+      [{type:'speak', text:"EngVid : 'Preparation for Advanced English'", link:"https://www.engvid.com/advanced-english/"}, {type:'write', text:"Plan d'apprentissage Phase 2 : objectifs personnels"}],
+      [{type:'listen', text:"Écoute B2 native : conférence ou débat EN"}, {type:'speak', text:"Présentation 5 min : sujet choisi librement"}],
+      [{type:'write', text:"Lettre de motivation fictive en anglais (300 mots)"}, {type:'vocab', text:"Liste vocabulary C1 : préparation semaine 13"}],
+      [{type:'listen', text:"Célébration : film préféré EN sans sous-titres"}, {type:'speak', text:"Bilan mensuel juin – 10 min libres 🎉"}],
+    ]
+  },
+];
+
+// Phase B2→C1 : 12 semaines (Juillet – Septembre 2026)
+const b2Weeks = [
+  {
+    title: "Semaine 13 · C1 Grammar Launch",
+    subtitle: "24–30 Juin · Advanced structures, nuance, register",
+    days: [
+      [{type:'listen', text:"BBC World Service (30 min) : noter 10 expressions C1", link:"https://www.bbc.co.uk/sounds/play/live:bbc_world_service"}, {type:'vocab', text:"Vocabulary.com : niveau avancé 20 min", link:"https://www.vocabulary.com"}],
+      [{type:'speak', text:"EngVid Advanced : 'Cleft Sentences for Emphasis'", link:"https://www.engvid.com/advanced-english/"}, {type:'write', text:"5 phrases avec cleft sentence (It was… that…)"}],
+      [{type:'listen', text:"TED Talk complexe : économie ou philosophie", link:"https://www.ted.com/talks"}, {type:'vocab', text:"Collocations C1 : 20 groupes de mots"}],
+      [{type:'speak', text:"EngVid : 'Subjunctive – Advanced Usage'", link:"https://www.engvid.com/grammar/"}, {type:'write', text:"Texte argumentatif utilisant subjonctif (200 mots)"}],
+      [{type:'listen', text:"Podcast NPR (20 min) + transcription partielle", link:"https://www.npr.org/podcasts/500005/npr-news-now"}, {type:'speak', text:"Discussion solo (5 min) : sujet philosophique ou éthique"}],
+      [{type:'write', text:"Essai académique : 'Privacy in the digital age' (350 mots)"}, {type:'vocab', text:"Hemingway App + Grammarly (édition)", link:"https://www.hemingwayapp.com"}],
+      [{type:'listen', text:"Docu EN (BBC Earth, Frontline…)"}, {type:'speak', text:"Bilan semaine 13"}],
+    ]
+  },
+  {
+    title: "Semaine 14 · Academic Writing C1",
+    subtitle: "1–7 Juillet · Formal register, complex argumentation",
+    days: [
+      [{type:'listen', text:"BBC In Our Time (45 min, thème science ou histoire)", link:"https://www.bbc.co.uk/programmes/b006qykl"}, {type:'vocab', text:"Vocabulary.com advanced 20 min", link:"https://www.vocabulary.com"}],
+      [{type:'speak', text:"EngVid : 'IELTS Writing Task 2 – Advanced'", link:"https://www.engvid.com/ielts/"}, {type:'write', text:"Plan détaillé d'un essai IELTS Task 2 (outline)"}],
+      [{type:'listen', text:"TED Talk : prendre des notes structurées (thèse, arguments, exemples)", link:"https://www.ted.com/talks"}, {type:'vocab', text:"20 mots académiques (AWL - Academic Word List)"}],
+      [{type:'speak', text:"EngVid : 'Cohesion & Coherence in Writing'", link:"https://www.engvid.com/writing/"}, {type:'write', text:"Essai IELTS Task 2 complet (250 mots, 45 min)"}],
+      [{type:'listen', text:"Lecture audio d'un article du Guardian ou Economist", link:"https://www.theguardian.com/education"}, {type:'speak', text:"Compte-rendu oral de l'article (4 min)"}],
+      [{type:'write', text:"Essai : 'Globalisation benefits developing nations' (350 mots)"}, {type:'vocab', text:"Révision AWL semaines 13–14", link:"https://quizlet.com"}],
+      [{type:'listen', text:"Podcast académique ou conférence EN"}, {type:'speak', text:"Bilan semaine 14"}],
+    ]
+  },
+  {
+    title: "Semaine 15 · Speaking C1 – Nuance & Précision",
+    subtitle: "8–14 Juillet · Advanced presentation, hedging, diplomacy",
+    days: [
+      [{type:'listen', text:"Oxford Union Debate (20 min)", link:"https://www.youtube.com/user/OxfordUnion"}, {type:'vocab', text:"Expressions de hedging (I would argue / arguably…)"}],
+      [{type:'speak', text:"EngVid : 'Advanced Speaking – Hedging & Tentative Language'", link:"https://www.engvid.com/speak-english/"}, {type:'write', text:"Réécrire un texte direct en ajoutant 5 formulations nuancées"}],
+      [{type:'listen', text:"Podcast The Economist (20 min)", link:"https://www.economist.com/audio"}, {type:'vocab', text:"20 adjectifs à nuance forte (contentious, pivotal, elusive…)"}],
+      [{type:'speak', text:"Monologue enregistré (5 min) : expliquer une controverse"}, {type:'write', text:"Texte nuancé : 'Is cancel culture helpful or harmful?' (300 mots)"}],
+      [{type:'listen', text:"Interview complexe (BBC HARDtalk ou similaire)", link:"https://www.bbc.co.uk/programmes/p004t1s0"}, {type:'speak', text:"Imiter le style de l'interviewé (3 min)"}],
+      [{type:'write', text:"Lettre formelle complexe (350 mots) avec langage diplomatique"}, {type:'vocab', text:"Quizlet : révision semaines 13–15", link:"https://quizlet.com"}],
+      [{type:'listen', text:"Film ou série anglophone (60 min)"}, {type:'speak', text:"Bilan mensuel juillet – 10 min"}],
+    ]
+  },
+  {
+    title: "Semaine 16 · Listening C1 – Contenu Authentique",
+    subtitle: "15–21 Juillet · Lectures, lectures, lectures – no subtitles",
+    days: [
+      [{type:'listen', text:"BBC Reith Lectures (30 min, transcription disponible)", link:"https://www.bbc.co.uk/programmes/b00729d9"}, {type:'vocab', text:"30 mots inconnus de l'écoute → Quizlet"}],
+      [{type:'speak', text:"EngVid : 'How to Sound More Natural – C1'", link:"https://www.engvid.com/advanced-english/"}, {type:'write', text:"Résumé de conférence BBC (200 mots)"}],
+      [{type:'listen', text:"Podcast 'Hidden Brain' (NPR, 30 min)", link:"https://www.npr.org/series/423302056/hidden-brain"}, {type:'vocab', text:"Expressions et métaphores du podcast : 15 items"}],
+      [{type:'speak', text:"Présentation improvisée (5 min) : topic assigné aléatoirement"}, {type:'write', text:"Critique d'une conférence écoutée (250 mots)"}],
+      [{type:'listen', text:"Conférence académique YouTube (20 min EN)", link:"https://www.youtube.com/results?search_query=academic+lecture+english"}, {type:'speak', text:"Q&A simulé : répondre à 5 questions sur la conférence"}],
+      [{type:'write', text:"Texte analytique C1 (400 mots) : analyse d'un phénomène social"}, {type:'vocab', text:"Révision globale vocab C1 jusqu'ici"}],
+      [{type:'listen', text:"Audiobook EN (chapitre, 20–30 min)", link:"https://librivox.org/"}, {type:'speak', text:"Bilan semaine 16"}],
+    ]
+  },
+  {
+    title: "Semaine 17 · Writing C1 – Styles Variés",
+    subtitle: "22–28 Juillet · Reports, proposals, reviews, formal letters",
+    days: [
+      [{type:'listen', text:"BBC World Service news (30 min)", link:"https://www.bbc.co.uk/sounds/play/live:bbc_world_service"}, {type:'vocab', text:"Vocabulary.com 20 min", link:"https://www.vocabulary.com"}],
+      [{type:'speak', text:"EngVid : 'How to Write a Report – C1'", link:"https://www.engvid.com/writing/"}, {type:'write', text:"Rapport professionnel (300 mots) : résultats d'une enquête fictive"}],
+      [{type:'listen', text:"Podcast The Guardian Long Read (audio)", link:"https://www.theguardian.com/news/series/the-long-read"}, {type:'vocab', text:"Connecteurs logiques avancés : 20 nouveaux"}],
+      [{type:'speak', text:"EngVid : 'Writing a Proposal – Advanced'", link:"https://www.engvid.com/writing/"}, {type:'write', text:"Proposition formelle : 'Plan d'amélioration d'un service' (350 mots)"}],
+      [{type:'listen', text:"Critique littéraire ou culturelle EN (podcast)", link:"https://www.bbc.co.uk/programmes/p02pc9pj"}, {type:'speak', text:"Critique orale d'un film/livre (4 min)"}],
+      [{type:'write', text:"Review C1 : critique d'un film ou livre réel (300 mots)"}, {type:'vocab', text:"Grammarly + Hemingway sur tous les écrits de la semaine", link:"https://www.grammarly.com"}],
+      [{type:'listen', text:"Écoute longue (podcast 45 min)"}, {type:'speak', text:"Bilan semaine 17"}],
+    ]
+  },
+  {
+    title: "Semaine 18 · Vocabulaire C1 Avancé",
+    subtitle: "29 Juil–4 Août · AWL, collocations, register switching",
+    days: [
+      [{type:'listen', text:"BBC In Our Time (science) 45 min", link:"https://www.bbc.co.uk/programmes/b006qykl"}, {type:'vocab', text:"Academic Word List : 30 mots (sublists 1–3)", link:"https://www.victoria.ac.nz/lals/resources/academicwordlist/"}],
+      [{type:'speak', text:"EngVid : 'Collocations – Verb+Noun C1'", link:"https://www.engvid.com/vocabulary/"}, {type:'write', text:"10 phrases intégrant les nouvelles collocations"}],
+      [{type:'listen', text:"Podcast économique EN (20 min)", link:"https://www.npr.org/podcasts/510289/planet-money"}, {type:'vocab', text:"Jargon économique : 20 termes"}],
+      [{type:'speak', text:"Changement de registre : même idée en familier + formel"}, {type:'write', text:"Email formel + version informelle du même message (comparaison)"}],
+      [{type:'listen', text:"Conférence TEDx (20 min, thème business ou innovation)", link:"https://www.ted.com/talks"}, {type:'speak', text:"Résumé oral (5 min) avec vocab C1"}],
+      [{type:'write', text:"Essai de synthèse (450 mots) : 3 sources différentes"}, {type:'vocab', text:"Quizlet : révision AWL complète", link:"https://quizlet.com"}],
+      [{type:'listen', text:"Film classique EN (années 80–90) sans sous-titres"}, {type:'speak', text:"Bilan mensuel août – 10 min"}],
+    ]
+  },
+  {
+    title: "Semaine 19 · Préparation Examen C1",
+    subtitle: "5–11 Août · CAE/IELTS 7+ / Cambridge C1 practice",
+    days: [
+      [{type:'listen', text:"Cambridge C1 Advanced – Listening Part 1 (gratuit)", link:"https://www.cambridgeenglish.org/learning-english/activities-for-learners/"}, {type:'vocab', text:"Révision vocabulary d'examen"}],
+      [{type:'speak', text:"EngVid : 'CAE Speaking – Long Turn'", link:"https://www.engvid.com/exams/"}, {type:'write', text:"Essai CAE : Part 1 ou Part 2 (timed 45 min)"}],
+      [{type:'listen', text:"Cambridge C1 Listening Part 2–3 (sample)", link:"https://www.cambridgeenglish.org/learning-english/activities-for-learners/"}, {type:'vocab', text:"Révision vocab thématique examen"}],
+      [{type:'speak', text:"Mock speaking test C1 : 2 tasks de 4 min (enregistré)"}, {type:'write', text:"Lettre formelle C1 (400 mots) en conditions d'examen"}],
+      [{type:'listen', text:"IELTS Listening test complet (1h)", link:"https://ieltsonlinetests.com/"}, {type:'speak', text:"Feedback sur enregistrement speaking de mercredi"}],
+      [{type:'write', text:"IELTS Writing Task 1 + Task 2 (1h30 chronométrés)"}, {type:'vocab', text:"Erreurs fréquentes exam : révision ciblée"}],
+      [{type:'listen', text:"Relaxation : film EN au choix, 100% plaisir"}, {type:'speak', text:"Bilan semaine 19"}],
+    ]
+  },
+  {
+    title: "Semaine 20 · Interaction & Spontanéité",
+    subtitle: "12–18 Août · Improvisation, real conversations, fluency C1",
+    days: [
+      [{type:'listen', text:"Podcast débat (Intelligence Squared, 45 min)", link:"https://www.intelligencesquared.com/podcasts/"}, {type:'vocab', text:"Expressions de désaccord poli : 15 formules"}],
+      [{type:'speak', text:"EngVid : 'Disagree Without Being Disagreeable'", link:"https://www.engvid.com/speak-english/"}, {type:'write', text:"Réponse formelle à un email agressif (300 mots)"}],
+      [{type:'listen', text:"Interview longue (Lex Fridman, Diary of a CEO, etc.)", link:"https://www.youtube.com/c/lexfridman"}, {type:'vocab', text:"10 tournures conversationnelles C1"}],
+      [{type:'speak', text:"Simulation interview professionnelle (5 min, enregistrée)"}, {type:'write', text:"Questions + réponses d'entretien (Q&A : 10 questions)"}],
+      [{type:'listen', text:"Émission radio EN en direct (BBC Radio 4)", link:"https://www.bbc.co.uk/sounds/play/live:bbc_radio_four"}, {type:'speak', text:"Discussion libre (5 min) sur un sujet d'actualité"}],
+      [{type:'write', text:"Discours ou toast (400 mots) : graduation ceremony"}, {type:'vocab', text:"Révision complète vocab C1 (semaines 13–20)", link:"https://quizlet.com"}],
+      [{type:'listen', text:"Podcast ou audiobook EN (45 min)"}, {type:'speak', text:"Bilan mensuel août – 10 min"}],
+    ]
+  },
+  {
+    title: "Semaine 21 · Analyse Critique & Synthèse",
+    subtitle: "19–25 Août · Critical thinking in English, synthesis tasks",
+    days: [
+      [{type:'listen', text:"Philosophie EN : Philosophize This! podcast", link:"https://www.philosophizethis.org/"}, {type:'vocab', text:"Vocab de l'analyse critique : 20 termes"}],
+      [{type:'speak', text:"EngVid : 'Critical Thinking in English'", link:"https://www.engvid.com/advanced-english/"}, {type:'write', text:"Analyse critique d'un article EN (350 mots)"}],
+      [{type:'listen', text:"Conférence académique YouTube (30 min)", link:"https://www.youtube.com/results?search_query=academic+lecture+english"}, {type:'vocab', text:"Révision AWL sublists 4–6"}],
+      [{type:'speak', text:"Présentation analytique (6 min) : 'Analyse d'un phénomène'"}, {type:'write', text:"Texte de synthèse : 2 articles contradictoires (500 mots)"}],
+      [{type:'listen', text:"Podcast long (The Atlantic, BBC Analysis)", link:"https://www.bbc.co.uk/programmes/b006r4vz"}, {type:'speak', text:"Défendre une thèse complexe (5 min)"}],
+      [{type:'write', text:"Dissertation C1 : 'The ethics of artificial intelligence' (500 mots)"}, {type:'vocab', text:"Grammarly + révision auto"}],
+      [{type:'listen', text:"Documentaire politique ou économique EN"}, {type:'speak', text:"Bilan semaine 21"}],
+    ]
+  },
+  {
+    title: "Semaine 22 · Style & Sophistication Linguistique",
+    subtitle: "26 Août–1 Sept · Rhetoric, style, literary devices in English",
+    days: [
+      [{type:'listen', text:"Discours célèbre EN (Obama, Churchill…) : analyse", link:"https://www.americanrhetoric.com/"}, {type:'vocab', text:"Figures de style : métaphore, litote, anaphore…"}],
+      [{type:'speak', text:"EngVid : 'Using Rhetoric in English'", link:"https://www.engvid.com/advanced-english/"}, {type:'write', text:"Court discours persuasif (300 mots) avec 3 figures de style"}],
+      [{type:'listen', text:"TED Talk de grande qualité oratoire (noter techniques)", link:"https://www.ted.com/talks"}, {type:'vocab', text:"Expressions littéraires et sophistiquées : 20 items"}],
+      [{type:'speak', text:"Re-enactment : mémoriser et réciter 2 min d'un discours"}, {type:'write', text:"Essai stylistique (400 mots) avec travail sur la forme"}],
+      [{type:'listen', text:"Lecture audiobbok classique (Librivox – Orwell, Fitzgerald)", link:"https://librivox.org/"}, {type:'speak', text:"Lecture expressive à voix haute (10 min)"}],
+      [{type:'write', text:"Lettre ouverte (500 mots) sur un sujet de société"}, {type:'vocab', text:"Quizlet : révision finale vocab C1", link:"https://quizlet.com"}],
+      [{type:'listen', text:"Opéra, pièce de théâtre EN (YouTube) ou film d'art"}, {type:'speak', text:"Bilan semaine 22"}],
+    ]
+  },
+  {
+    title: "Semaine 23 · Simulation Finale C1",
+    subtitle: "2–8 Septembre · Full mock exams, all skills tested",
+    days: [
+      [{type:'listen', text:"CAE Listening test complet (1h)", link:"https://www.cambridgeenglish.org/learning-english/activities-for-learners/"}, {type:'vocab', text:"Révision ultime vocab C1 (Quizlet test mode)", link:"https://quizlet.com"}],
+      [{type:'speak', text:"Mock C1 Speaking : 3 tasks de 5 min (enregistré + auto-correction)"}, {type:'write', text:"Essai timed C1 (500 mots, 60 min) : 'Is democracy in decline?'"}],
+      [{type:'listen', text:"IELTS Listening Full Test + correction détaillée", link:"https://ieltsonlinetests.com/"}, {type:'vocab', text:"Révision erreurs fréquentes"}],
+      [{type:'speak', text:"Monologue C1 non préparé (5 min) : topic surpris"}, {type:'write', text:"Rapport formel de synthèse (500 mots) : simulation examen"}],
+      [{type:'listen', text:"Écoute double vitesse (1.5x) : podcast 20 min"}, {type:'speak', text:"Interview simulée (10 min) : rôle de candidat à un poste senior"}],
+      [{type:'write', text:"Auto-évaluation globale : points forts / axes d'amélioration"}, {type:'vocab', text:"Finaliser glossaire personnel EN → liste des 200 mots C1 acquis"}],
+      [{type:'listen', text:"Film grand format EN, appréciation pure"}, {type:'speak', text:"Grand bilan Phase 2 – 15 min libres en anglais 🏆"}],
+    ]
+  },
+  {
+    title: "Semaine 24 · Célébration & Projection",
+    subtitle: "9–15 Septembre · Bilan final, objectifs futurs, maintien du niveau",
+    days: [
+      [{type:'listen', text:"Écoute libre : podcast favori EN (plaisir pur)"}, {type:'vocab', text:"Réviser son glossaire personnel complet"}],
+      [{type:'speak', text:"Enregistrer un monologue 10 min : 'Mon parcours d'anglais'"}, {type:'write', text:"Rédiger son bilan de 6 mois (500 mots en anglais)"}],
+      [{type:'listen', text:"TED Talk inspirant (au choix)", link:"https://www.ted.com/talks"}, {type:'vocab', text:"Définir 20 mots cibles pour le niveau C2"}],
+      [{type:'speak', text:"Discussion orale : objectifs des 3 prochains mois"}, {type:'write', text:"Lettre à soi-même dans 6 mois (en anglais, 300 mots)"}],
+      [{type:'listen', text:"BBC Radio 4 en direct (1h d'écoute active)", link:"https://www.bbc.co.uk/sounds/play/live:bbc_radio_four"}, {type:'speak', text:"Présentation finale : 'My English Journey' (10 min)"}],
+      [{type:'write', text:"Plan de maintien C1 : routine mensuelle (liste d'actions)"}, {type:'vocab', text:"Partager son glossaire / ressources avec un(e) ami(e)"}],
+      [{type:'listen', text:"🎉 Film ou série préférée EN – célébration !"}, {type:'speak', text:"🏆 Félicitations ! Tu as atteint le niveau C1 !"}],
+    ]
+  },
+];
+
+// ========== RENDER ==========
+
+function renderWeeks(weeks, containerId, phase) {
+  const container = document.getElementById(containerId);
+  container.innerHTML = '';
+
+  weeks.forEach((week, wi) => {
+    const weekId = `${phase}-w${wi}`;
+    const totalTasks = week.days.flat().length;
+
+    const accordion = document.createElement('div');
+    accordion.className = `week-accordion ${phase}-week`;
+    accordion.id = weekId;
+
+    const completedTasks = countWeekDone(weekId, totalTasks);
+    const pct = totalTasks > 0 ? Math.round(completedTasks / totalTasks * 100) : 0;
+
+    accordion.innerHTML = `
+      <div class="week-header" onclick="toggleWeek('${weekId}')">
+        <div class="week-num">S${wi + 1 + (phase === 'b2' ? 12 : 0)}</div>
+        <div class="week-title-wrap">
+          <div class="week-title">${week.title}</div>
+          <div class="week-subtitle">${week.subtitle}</div>
+        </div>
+        <div class="week-progress-mini">
+          <div class="week-prog-bar"><div class="week-prog-fill" id="wpf-${weekId}" style="width:${pct}%"></div></div>
+          <span id="wpc-${weekId}">${completedTasks}/${totalTasks}</span>
+        </div>
+        <span class="chevron">▾</span>
+      </div>
+      <div class="week-body">
+        <div class="day-grid" id="dg-${weekId}"></div>
+        <div class="legend">
+          <div class="legend-item"><div class="legend-dot" style="background:var(--teal)"></div> Speaking</div>
+          <div class="legend-item"><div class="legend-dot" style="background:var(--gold)"></div> Writing</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#7b3fa0"></div> Listening</div>
+          <div class="legend-item"><div class="legend-dot" style="background:#c94a4a"></div> Vocabulaire</div>
+        </div>
+      </div>
+    `;
+    container.appendChild(accordion);
+
+    // Fill days
+    const grid = accordion.querySelector(`#dg-${weekId}`);
+    week.days.forEach((dayTasks, di) => {
+      const col = document.createElement('div');
+      col.className = 'day-col';
+      col.innerHTML = `<div class="day-label">${DAYS[di]}</div>`;
+      dayTasks.forEach((task, ti) => {
+        const taskId = `${weekId}-d${di}-t${ti}`;
+        const isDone = localStorage.getItem(taskId) === '1';
+        const tagMap = {speak:'SPEAKING',write:'WRITING',listen:'LISTENING',vocab:'VOCAB'};
+        const colorMap = {speak:'tag-speak',write:'tag-write',listen:'tag-listen',vocab:'tag-vocab'};
+        const checkColorMap = {speak:'speak-task',write:'write-task',listen:'listen-task',vocab:'vocab-task'};
+
+        const item = document.createElement('div');
+        item.className = `task-item ${checkColorMap[task.type]}${isDone?' done':''}`;
+        item.dataset.id = taskId;
+        item.onclick = () => toggleTask(taskId, weekId, totalTasks);
+        item.innerHTML = `
+          <div class="task-check">${isDone ? '✓' : ''}</div>
+          <div class="task-text">
+            ${task.text}
+            ${task.link ? `<a href="${task.link}" target="_blank" onclick="e=event;e.stopPropagation()">↗ Ouvrir le lien</a>` : ''}
+          </div>
+          <span class="task-tag ${colorMap[task.type]}">${tagMap[task.type]}</span>
+        `;
+        col.appendChild(item);
+      });
+      grid.appendChild(col);
+    });
+  });
+}
+
+function countWeekDone(weekId, totalTasks) {
+  let count = 0;
+  // Estimate by scanning localStorage
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    if (key && key.startsWith(weekId + '-') && localStorage.getItem(key) === '1') count++;
+  }
+  return count;
+}
+
+function toggleTask(taskId, weekId, totalTasks) {
+  const item = document.querySelector(`[data-id="${taskId}"]`);
+  const done = localStorage.getItem(taskId) === '1';
+  if (done) {
+    localStorage.removeItem(taskId);
+    item.classList.remove('done');
+    item.querySelector('.task-check').textContent = '';
+  } else {
+    localStorage.setItem(taskId, '1');
+    item.classList.add('done');
+    item.querySelector('.task-check').textContent = '✓';
+  }
+  updateWeekProgress(weekId, totalTasks);
+  updateGlobalProgress();
+}
+
+function updateWeekProgress(weekId, totalTasks) {
+  const done = countWeekDone(weekId, totalTasks);
+  const pct = totalTasks > 0 ? Math.round(done / totalTasks * 100) : 0;
+  const fill = document.getElementById(`wpf-${weekId}`);
+  const count = document.getElementById(`wpc-${weekId}`);
+  if (fill) fill.style.width = pct + '%';
+  if (count) count.textContent = `${done}/${totalTasks}`;
+}
+
+function updateGlobalProgress() {
+  let total = 0;
+  let done = 0;
+  b1Weeks.forEach((w, wi) => {
+    const weekId = `b1-w${wi}`;
+    const t = w.days.flat().length;
+    total += t;
+    done += countWeekDone(weekId, t);
+  });
+  b2Weeks.forEach((w, wi) => {
+    const weekId = `b2-w${wi}`;
+    const t = w.days.flat().length;
+    total += t;
+    done += countWeekDone(weekId, t);
+  });
+  const pct = total > 0 ? Math.round(done / total * 100) : 0;
+  document.getElementById('globalBar').style.width = pct + '%';
+  document.getElementById('globalCount').textContent = `${done} / ${total} tâches (${pct}%)`;
+}
+
+function toggleWeek(weekId) {
+  const el = document.getElementById(weekId);
+  el.classList.toggle('open');
+}
+
+function showPhase(phase) {
+  document.getElementById('phase-b1').classList.remove('visible');
+  document.getElementById('phase-b2').classList.remove('visible');
+
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active','b1','b2','c1'));
+
+  if (phase === 'all') {
+    document.getElementById('phase-b1').classList.add('visible');
+    document.getElementById('phase-b2').classList.add('visible');
+    document.getElementById('nav-all').classList.add('active');
+  } else if (phase === 'b1') {
+    document.getElementById('phase-b1').classList.add('visible');
+    document.getElementById('nav-b1').classList.add('active', 'b1');
+  } else {
+    document.getElementById('phase-b2').classList.add('visible');
+    document.getElementById('nav-b2').classList.add('active', 'b2');
+  }
+}
+
+function resetAll() {
+  if (!confirm('Réinitialiser toute la progression ? Cette action est irréversible.')) return;
+  localStorage.clear();
+  // Rebuild
+  renderWeeks(b1Weeks, 'b1-weeks', 'b1');
+  renderWeeks(b2Weeks, 'b2-weeks', 'b2');
+  updateGlobalProgress();
+}
+
+// Fix link clicks inside tasks
+document.addEventListener('click', function(e) {
+  if (e.target.tagName === 'A') e.stopPropagation();
+});
+
+// ========== INIT ==========
+renderWeeks(b1Weeks, 'b1-weeks', 'b1');
+renderWeeks(b2Weeks, 'b2-weeks', 'b2');
+updateGlobalProgress();
+
+// Refresh week progress bars on load
+b1Weeks.forEach((w, wi) => updateWeekProgress(`b1-w${wi}`, w.days.flat().length));
+b2Weeks.forEach((w, wi) => updateWeekProgress(`b2-w${wi}`, w.days.flat().length));
+</script>
+</body>
+</html>
